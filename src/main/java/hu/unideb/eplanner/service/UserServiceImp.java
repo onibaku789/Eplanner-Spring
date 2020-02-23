@@ -19,10 +19,7 @@ public class UserServiceImp implements UserService {
         return userRepository.getAllUser();
     }
 
-    @Override
-    public UserEntity getUserByName(String name) {
-        return userRepository.getUserByName(name);
-    }
+
 
     @Override
     public void saveUser(UserEntity userEntity) {
@@ -33,4 +30,22 @@ public class UserServiceImp implements UserService {
     public UserEntity findById(Long id) {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
     }
+    @Override
+    public UserEntity findByName(String name) {
+        UserEntity tempUser = userRepository.findUserByName(name);
+        if(tempUser == null)
+            throw new UserNotFoundException(name);
+        return tempUser ;
+    }
+    @Override
+    public void deleteUser(UserEntity userEntity) {
+        userRepository.delete(userEntity);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+
 }

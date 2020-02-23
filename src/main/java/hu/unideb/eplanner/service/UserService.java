@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface UserService  {
 
+    List<UserEntity> getAllUsers();
 
-     List<UserEntity> getAllUsers();
-    UserEntity getUserByName(final String name);
     void saveUser(UserEntity userEntity);
     UserEntity findById(Long id);
+    void deleteUser(UserEntity userEntity);
+    void deleteUserById(Long id);
 
 
+    UserEntity findByName(String name);
 }
