@@ -1,10 +1,6 @@
 package hu.unideb.eplanner.service;
 
-import hu.unideb.eplanner.model.User;
-import hu.unideb.eplanner.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
+import hu.unideb.eplanner.model.entities.UserEntity;
 
 import java.util.List;
 
@@ -12,8 +8,10 @@ import java.util.List;
 public interface UserService  {
 
 
-    public List<User> getAllUsers();
-    User getUserByName(final String name);
+     List<UserEntity> getAllUsers();
+    UserEntity getUserByName(final String name);
+    void saveUser(UserEntity userEntity);
+    UserEntity findById(Long id);
 
 
 }
