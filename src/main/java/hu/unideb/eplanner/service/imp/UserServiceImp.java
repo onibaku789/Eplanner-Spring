@@ -1,8 +1,9 @@
-package hu.unideb.eplanner.service;
+package hu.unideb.eplanner.service.imp;
 
 import hu.unideb.eplanner.exceptions.UserNotFoundException;
 import hu.unideb.eplanner.model.entities.UserEntity;
 import hu.unideb.eplanner.repository.UserRepository;
+import hu.unideb.eplanner.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<UserEntity> getAllUsers() {
-        return userRepository.getAllUser();
+        return userRepository.findAll();
     }
-
-
 
     @Override
     public void saveUser(UserEntity userEntity) {

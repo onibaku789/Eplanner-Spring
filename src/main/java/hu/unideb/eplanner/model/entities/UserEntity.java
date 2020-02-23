@@ -1,26 +1,30 @@
 package hu.unideb.eplanner.model.entities;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.List;
 
-public
+
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Table( name = "EPLANNER_USER")
+@ToString(exclude = "teams")
+@Table(name = "EPLANNER_USER")
 
-class UserEntity {
+public class UserEntity implements java.io.Serializable {
 
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     Long id;
     @NotNull
     String name;
@@ -29,28 +33,17 @@ class UserEntity {
     String email;
 
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Team> teams;
+
+
     public UserEntity(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity userEntity = (UserEntity) o;
-        return Objects.equals(id, userEntity.id) &&
-                Objects.equals(name, userEntity.name) &&
-                Objects.equals(email, userEntity.email);
+    public UserEntity() {
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email);
-    }
-
-
 }

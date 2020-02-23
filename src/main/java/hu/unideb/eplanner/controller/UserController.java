@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api")
@@ -34,6 +35,7 @@ public class UserController {
         List<EntityModel<UserEntity>> users = userService.getAllUsers().stream()
                 .map(userModelAssembler::toModel)
                 .collect(Collectors.toList());
+
         return new CollectionModel<>(users,linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel());
     }
 
@@ -48,7 +50,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     @ResponseBody
     public EntityModel<UserEntity> getUser(@PathVariable String id){
-        logger.info("{}",id);
+        logger.debug(id);
         if(NumberUtils.isCreatable(id)) {
             return userModelAssembler.toModel(userService.findById(NumberUtils.createLong(id)));
         }

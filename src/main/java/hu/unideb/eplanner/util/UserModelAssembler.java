@@ -14,12 +14,12 @@ public class UserModelAssembler implements RepresentationModelAssembler<UserEnti
 
 
     @Override
-    public EntityModel<UserEntity> toModel(UserEntity employee) {
+    public EntityModel<UserEntity> toModel(UserEntity user) {
 
-        return new EntityModel<>(employee,
-                linkTo(methodOn(UserController.class).getUser(Long.toString(employee.getId()))).withSelfRel(),
+        return new EntityModel<UserEntity>(user,
+                linkTo(methodOn(UserController.class).getUser(Long.toString(user.getId()))).withSelfRel(),
                 linkTo(methodOn(UserController.class).getAllUsers()).withRel("users"));
     }
-
-
 }
+
+
