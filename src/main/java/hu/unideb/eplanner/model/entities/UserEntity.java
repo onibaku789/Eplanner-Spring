@@ -14,6 +14,7 @@ public
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table( name = "EPLANNER_USER")
 
 class UserEntity {
 
