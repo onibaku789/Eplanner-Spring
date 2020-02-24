@@ -2,7 +2,7 @@ package hu.unideb.eplanner.controller;
 
 import hu.unideb.eplanner.model.entities.UserEntity;
 import hu.unideb.eplanner.service.UserService;
-import hu.unideb.eplanner.util.UserModelAssembler;
+import hu.unideb.eplanner.util.assemblers.UserModelAssembler;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

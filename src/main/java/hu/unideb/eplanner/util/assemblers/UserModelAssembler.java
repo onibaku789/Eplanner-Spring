@@ -1,4 +1,4 @@
-package hu.unideb.eplanner.util;
+package hu.unideb.eplanner.util.assemblers;
 
 import hu.unideb.eplanner.controller.UserController;
 import hu.unideb.eplanner.model.entities.UserEntity;
@@ -15,7 +15,6 @@ public class UserModelAssembler implements RepresentationModelAssembler<UserEnti
 
     @Override
     public EntityModel<UserEntity> toModel(UserEntity user) {
-
         return new EntityModel<UserEntity>(user,
                 linkTo(methodOn(UserController.class).getUser(Long.toString(user.getId()))).withSelfRel(),
                 linkTo(methodOn(UserController.class).getAllUsers()).withRel("users"));
