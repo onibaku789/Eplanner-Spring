@@ -1,6 +1,7 @@
 package hu.unideb.eplanner.service.imp;
 
 import hu.unideb.eplanner.model.entities.Team;
+import hu.unideb.eplanner.model.entities.UserEntity;
 import hu.unideb.eplanner.repository.TeamRepository;
 import hu.unideb.eplanner.service.TeamService;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,10 @@ public class TeamServiceImp implements TeamService {
     @Override
     public Team findTeamByName(String name) {
         return teamRepository.findDistinctByName(name);
+    }
+
+    @Override
+    public List<Team> findTeamsToUser(UserEntity userEntity) {
+        return teamRepository.findAllByUsersOrderByName(userEntity);
     }
 }

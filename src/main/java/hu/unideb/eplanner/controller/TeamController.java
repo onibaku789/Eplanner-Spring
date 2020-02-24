@@ -47,5 +47,14 @@ public class TeamController {
         }
         return teamModelAssembler.toModel(teamService.findTeamByName(id));
     }
+    /*
+@GetMapping("/teams/user/{id}")
+    public  CollectionModel<EntityModel<Team>> getAllTeamsToUser(UserEntity user){
+        List<EntityModel<Team>> teams = teamService.findTeamsToUser(user).stream()
+                .map(teamModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return new CollectionModel<>(teams,linkTo(methodOn(TeamController.class).getAllTeams()).withSelfRel());
+    }*/
 
 }
