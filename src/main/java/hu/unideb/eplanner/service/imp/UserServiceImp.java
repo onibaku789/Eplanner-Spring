@@ -1,12 +1,13 @@
 package hu.unideb.eplanner.service.imp;
 
 import hu.unideb.eplanner.exceptions.UserNotFoundException;
-import hu.unideb.eplanner.model.entities.UserEntity;
+import hu.unideb.eplanner.model.entities.User;
 import hu.unideb.eplanner.repository.UserRepository;
 import hu.unideb.eplanner.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
@@ -16,29 +17,28 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
-    public void saveUser(UserEntity userEntity) {
-        userRepository.save(userEntity);
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
-    public UserEntity findById(Long id) {
-        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
+
     @Override
-    public UserEntity findByName(String name) {
-        UserEntity tempUser = userRepository.findUserByName(name);
-        if(tempUser == null)
-            throw new UserNotFoundException(name);
-        return tempUser ;
+    public User findByName(String name) {
+        return userRepository.findUserByName(name).orElseThrow(() -> new UserNotFoundException(name));
     }
+
     @Override
-    public void deleteUser(UserEntity userEntity) {
-        userRepository.delete(userEntity);
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     @Override

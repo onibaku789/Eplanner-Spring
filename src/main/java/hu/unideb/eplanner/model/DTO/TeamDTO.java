@@ -6,7 +6,7 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,6 +19,6 @@ import java.util.Set;
 public class TeamDTO extends RepresentationModel<TeamDTO> {
     Long id;
     String name;
-    Set<UserDTO> users;
+    List<UserDTO> users;
 
 }

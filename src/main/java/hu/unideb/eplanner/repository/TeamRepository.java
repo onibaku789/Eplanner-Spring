@@ -1,17 +1,19 @@
 package hu.unideb.eplanner.repository;
 
 import hu.unideb.eplanner.model.entities.Team;
-import hu.unideb.eplanner.model.entities.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import hu.unideb.eplanner.model.entities.User;
+import hu.unideb.eplanner.model.projecton.TeamProjection;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@Repository
-public interface TeamRepository extends JpaRepository<Team, Long> {
+
+@RepositoryRestResource(excerptProjection = TeamProjection.class)
+public interface TeamRepository extends CrudRepository<Team, Long> {
 
     Team findDistinctByName(String name);
 
-    List<Team> findAllByUsersOrderByName(UserEntity userEntity);
+    List<Team> findAllByUsersOrderByName(User user);
 
 }

@@ -1,13 +1,15 @@
 package hu.unideb.eplanner.repository;
 
-import hu.unideb.eplanner.model.entities.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import hu.unideb.eplanner.model.entities.User;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity,Long> {
+import java.util.Optional;
 
-    UserEntity findUserByName(String name);
+@RepositoryRestController
+public interface UserRepository extends CrudRepository<User, Long> {
+
+    Optional<User> findUserByName(String name);
 
 
 }

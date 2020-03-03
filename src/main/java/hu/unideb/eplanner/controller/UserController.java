@@ -1,6 +1,7 @@
 package hu.unideb.eplanner.controller;
 
-import hu.unideb.eplanner.model.entities.UserEntity;
+import hu.unideb.eplanner.model.entities.User;
+import hu.unideb.eplanner.repository.UserRepository;
 import hu.unideb.eplanner.service.UserService;
 import hu.unideb.eplanner.util.assemblers.UserModelAssembler;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -11,9 +12,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -22,41 +20,46 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-   private final UserService userService;
+    private final UserService userService;
     private final UserModelAssembler userModelAssembler;
+    private final UserRepository repository;
 
 
-    public UserController(UserService userService, UserModelAssembler userModelAssembler) {
+    public UserController(UserService userService, UserModelAssembler userModelAssembler, UserRepository repository) {
         this.userService = userService;
         this.userModelAssembler = userModelAssembler;
+        this.repository = repository;
     }
-    @GetMapping("/users")
-    public CollectionModel<EntityModel<UserEntity>> getAllUsers(){
-        List<EntityModel<UserEntity>> users = userService.getAllUsers().stream()
-                .map(userModelAssembler::toModel)
-                .collect(Collectors.toList());
 
-        return new CollectionModel<>(users,linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel());
+    @GetMapping("/users")
+    public ResponseEntity<CollectionModel<EntityModel<User>>> getAllUsers() {
+        return ResponseEntity.ok(
+                this.userModelAssembler.toCollectionModel(this.userService.getAllUsers()));
     }
 
     @PostMapping("/users")
-    public ResponseEntity<EntityModel<UserEntity>> createNewUser(@RequestBody UserEntity newUserEntity){
-        logger.debug(newUserEntity.toString());
-        userService.saveUser(newUserEntity);
-        return ResponseEntity.created(linkTo(methodOn(UserController.class).getUser(Long.toString(newUserEntity.getId()))).toUri())
-                .body(userModelAssembler.toModel(newUserEntity));
+    public ResponseEntity<EntityModel<User>> createNewUser(@RequestBody User newUser) {
+        logger.debug(newUser.toString());
+        userService.saveUser(newUser);
+        return ResponseEntity.created(linkTo(methodOn(UserController.class).getUser(Long.toString(newUser.getId()))).toUri())
+                .body(userModelAssembler.toModel(newUser));
     }
 
     @GetMapping("/users/{id}")
     @ResponseBody
-    public EntityModel<UserEntity> getUser(@PathVariable String id){
+    public ResponseEntity<EntityModel<User>> getUser(@PathVariable String id) {
         logger.debug(id);
-        if(NumberUtils.isCreatable(id)) {
-            return userModelAssembler.toModel(userService.findById(NumberUtils.createLong(id)));
+        if (NumberUtils.isCreatable(id)) {
+            return this.repository.findById(NumberUtils.createLong(id)) //
+                    .map(this.userModelAssembler::toModel) //
+                    .map(ResponseEntity::ok) //
+                    .orElse(ResponseEntity.notFound().build());
         }
-        return userModelAssembler.toModel(userService.findByName(id));
+        return this.repository.findUserByName(id) //
+                .map(this.userModelAssembler::toModel) //
+                .map(ResponseEntity::ok) //
+                .orElse(ResponseEntity.notFound().build());
     }
-
 
 
 }
