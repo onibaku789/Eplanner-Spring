@@ -15,5 +15,6 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     Team findDistinctByName(String name);
 
     List<Team> findAllByUsersOrderByName(User user);
+    //List<User> findUserByTeams(Team team);
 
 }

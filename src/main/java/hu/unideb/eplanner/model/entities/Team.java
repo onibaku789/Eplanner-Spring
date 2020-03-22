@@ -1,5 +1,6 @@
 package hu.unideb.eplanner.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hu.unideb.eplanner.model.entities.core.AbstractEntity;
 import lombok.*;
 
@@ -19,18 +20,13 @@ import java.util.List;
 @ToString
 @Table(name = "EPLANNER_TEAM")
 public class Team extends AbstractEntity {
-    /*  @Id @GeneratedValue @Column(name = "team_id")
-      Long id;
-      @Version
-      Long version;
-      @LastModifiedDate
-      LocalDateTime lastModified;*/
+
     @NotNull
     String name;
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    //@JsonBackReference
+    @JsonIgnoreProperties("teams")
             List<User> users;
 
 

@@ -14,13 +14,16 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 public class AbstractEntity {
+
     private final @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     Long id;
     @LastModifiedDate
     @JsonIgnore
     LocalDateTime lastModified;
     private @Version
+    @JsonIgnore
     Long version;
 
     protected AbstractEntity() {

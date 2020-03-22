@@ -1,5 +1,6 @@
 package hu.unideb.eplanner.service;
 
+import hu.unideb.eplanner.model.entities.Team;
 import hu.unideb.eplanner.model.entities.User;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface UserService {
 
     void deleteUserById(Long id);
 
+    List<Team> findTeamsForUser(Long id);
 
     User findByName(String name);
 }

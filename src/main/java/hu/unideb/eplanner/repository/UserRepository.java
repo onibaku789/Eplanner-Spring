@@ -11,5 +11,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findUserByName(String name);
 
+    // List<Team> findTeamsbyUsers(User user);
+
 
 }

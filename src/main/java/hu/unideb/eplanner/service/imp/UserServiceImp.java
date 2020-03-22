@@ -1,6 +1,7 @@
 package hu.unideb.eplanner.service.imp;
 
 import hu.unideb.eplanner.exceptions.UserNotFoundException;
+import hu.unideb.eplanner.model.entities.Team;
 import hu.unideb.eplanner.model.entities.User;
 import hu.unideb.eplanner.repository.UserRepository;
 import hu.unideb.eplanner.service.UserService;
@@ -44,6 +45,11 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Team> findTeamsForUser(Long id) {
+        return null;
     }
 
 

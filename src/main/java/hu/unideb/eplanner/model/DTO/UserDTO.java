@@ -6,8 +6,6 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.List;
-
 
 @Data
 @Builder
@@ -18,9 +16,7 @@ import java.util.List;
 @Relation(collectionRelation = "users")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO extends RepresentationModel<UserDTO> {
-        Long id;
-        String name;
+    Long id;
+    String name;
     String email;
-    List<TeamDTO> teams;
-
 }
