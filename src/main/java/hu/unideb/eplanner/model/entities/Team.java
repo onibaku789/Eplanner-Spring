@@ -20,15 +20,11 @@ import java.util.List;
 @ToString
 @Table(name = "EPLANNER_TEAM")
 public class Team extends AbstractEntity {
-
     @NotNull
-    String name;
-
-
+    private final String name;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonIgnoreProperties("teams")
-            List<User> users;
-
+    private List<User> users;
 
     public Team(String name) {
         this.name = name;

@@ -22,29 +22,21 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(exclude = "teams")
 @Table(name = "EPLANNER_USER")
-
 public class User extends AbstractEntity {
-
-
-
     @NotNull
-    String name;
+    private String name;
     @NotNull
     @Email
-    String email;
-
-
+    private String email;
     @ManyToMany(cascade =
             {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "users")
     @JsonIgnoreProperties("users")
-            List<Team> teams;
-
+    private List<Team> teams;
 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
-
 
     public User() {
     }

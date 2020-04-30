@@ -1,8 +1,11 @@
 package hu.unideb.eplanner.service.imp;
 
 import hu.unideb.eplanner.exceptions.UserNotFoundException;
+import hu.unideb.eplanner.model.entities.Badges;
 import hu.unideb.eplanner.model.entities.Team;
 import hu.unideb.eplanner.model.entities.User;
+import hu.unideb.eplanner.repository.BadgeRepository;
+import hu.unideb.eplanner.repository.TeamRepository;
 import hu.unideb.eplanner.repository.UserRepository;
 import hu.unideb.eplanner.service.UserService;
 import org.springframework.stereotype.Service;
@@ -10,11 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImp implements UserService {
+public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
+    private final BadgeRepository badgeRepository;
 
-    public UserServiceImp(UserRepository userRepository) {
+    public DefaultUserService(UserRepository userRepository, TeamRepository teamRepository, BadgeRepository badgeRepository) {
         this.userRepository = userRepository;
+        this.teamRepository = teamRepository;
+        this.badgeRepository = badgeRepository;
     }
 
     @Override
@@ -34,7 +41,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findByName(String name) {
-        return userRepository.findUserByName(name).orElseThrow(() -> new UserNotFoundException(name));
+        return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException(name));
+    }
+
+    @Override
+    public List<Team> findTeamsForUser(User user) {
+        return teamRepository.findAllByUsers(user);
     }
 
     @Override
@@ -48,9 +60,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<Team> findTeamsForUser(Long id) {
-        return null;
+    public List<Badges> findBadgesForUser(User user) {
+        return badgeRepository.findAllByUser(user);
     }
-
-
 }

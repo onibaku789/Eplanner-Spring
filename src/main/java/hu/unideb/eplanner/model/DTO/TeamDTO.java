@@ -10,12 +10,11 @@ import org.springframework.hateoas.server.core.Relation;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @JsonRootName(value = "team")
 @Relation(collectionRelation = "teams")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TeamDTO extends RepresentationModel<TeamDTO> {
     Long id;
     String name;
-
 }

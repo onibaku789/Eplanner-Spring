@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-
 public class EplannerApplication {
 
     public static String CURIE_NAMESPACE = "eplanner";

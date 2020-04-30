@@ -7,14 +7,17 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @RepositoryRestResource(excerptProjection = TeamProjection.class)
 public interface TeamRepository extends CrudRepository<Team, Long> {
+    Optional<Team> findByName(String name);
 
-    Team findDistinctByName(String name);
+    Optional<Team> findById(Long id);
 
-    List<Team> findAllByUsersOrderByName(User user);
-    //List<User> findUserByTeams(Team team);
+    void deleteByName(String name);
 
+    void deleteById(Long id);
+
+    List<Team> findAllByUsers(User user);
 }

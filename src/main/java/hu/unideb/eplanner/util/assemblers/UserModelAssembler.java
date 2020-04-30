@@ -1,6 +1,5 @@
 package hu.unideb.eplanner.util.assemblers;
 
-import hu.unideb.eplanner.controller.TeamController;
 import hu.unideb.eplanner.controller.UserController;
 import hu.unideb.eplanner.model.entities.User;
 import org.springframework.hateoas.CollectionModel;
@@ -18,21 +17,37 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class UserModelAssembler
         implements RepresentationModelAssembler<User, EntityModel<User>> {
-
-
     @Override
     public EntityModel<User> toModel(User entity) {
-        return new EntityModel<>(entity, linkTo(methodOn(UserController.class).getUser(Long.toString(entity.getId()))).withSelfRel());
+        Link userLink = getUserLink(entity);
+        Link teamLinkForUser = getTeamLinkForUser(entity);
+        Link badgesLinkForUser = getBadgesLinkForUser(entity);
+        return new EntityModel<>(entity, userLink, teamLinkForUser, badgesLinkForUser);
     }
 
     @Override
     public CollectionModel<EntityModel<User>> toCollectionModel(Iterable<? extends User> entities) {
-        return new CollectionModel<>(StreamSupport.stream(entities.spliterator(), false).map(this::toModel).collect(Collectors.toList()));
+        Link userlink = getUsersLink();
+        return new CollectionModel<>(StreamSupport.stream(entities.spliterator(), false)
+                .map(this::toModel).collect(Collectors.toList()), userlink);
     }
 
-    Link createTeamLink(long teamId) {
-        return linkTo(methodOn(TeamController.class).getTeam(Long.toString(teamId))).withRel("team");
+    private Link getUsersLink() {
+        return linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel();
+    }
+
+    private Link getUserLink(User entity) {
+        return linkTo(methodOn(UserController.class)
+                getUser(Long.toString(entity.getId()))).withSelfRel();
+    }
+
+    private Link getTeamLinkForUser(User entity) {
+        return linkTo(methodOn(UserController.class)
+                .getTeamForUsers(Long.toString(entity.getId()))).withRel("teams");
+    }
+
+    private Link getBadgesLinkForUser(User entity) {
+        return linkTo(methodOn(UserController.class)
+                .getBadgesForUsers(Long.toString(entity.getId()))).withRel("badges");
     }
 }
-
-

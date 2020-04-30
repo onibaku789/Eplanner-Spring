@@ -1,7 +1,6 @@
 package hu.unideb.eplanner.service;
 
 import hu.unideb.eplanner.model.entities.Team;
-import hu.unideb.eplanner.model.entities.User;
 
 import java.util.List;
 
@@ -12,5 +11,4 @@ public interface TeamService {
 
     Team findTeamByName(String name);
 
-    List<Team> findTeamsToUser(User user);
 }

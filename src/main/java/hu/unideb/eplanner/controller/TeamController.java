@@ -19,7 +19,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api")
 public class TeamController {
-
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final TeamService teamService;
     private final TeamModelAssembler teamModelAssembler;
@@ -34,7 +33,6 @@ public class TeamController {
         List<EntityModel<Team>> teams = teamService.findAllTeams().stream()
                 .map(teamModelAssembler::toModel)
                 .collect(Collectors.toList());
-
         return new CollectionModel<>(teams, linkTo(methodOn(TeamController.class).getAllTeams()).withSelfRel());
     }
 
@@ -47,6 +45,5 @@ public class TeamController {
         }
         return teamModelAssembler.toModel(teamService.findTeamByName(id));
     }
-
 
 }
